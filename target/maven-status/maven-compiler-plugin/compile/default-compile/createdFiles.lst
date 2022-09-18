@@ -1,0 +1,6 @@
+io\noks\chatsex\manager\PlayerManager.class
+io\noks\chatsex\utils\WebUtil.class
+io\noks\chatsex\listeners\PlayerListener.class
+io\noks\chatsex\Main.class
+io\noks\chatsex\interfaces\WebCallback.class
+io\noks\chatsex\listeners\ChatListener.class

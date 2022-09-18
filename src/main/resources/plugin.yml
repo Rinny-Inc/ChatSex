@@ -1,0 +1,5 @@
+main: io.noks.chatsex.Main
+name: ChatSex
+version: 1.0
+author: Noksio
+depends: [PermissionsEx]
