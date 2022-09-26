@@ -44,11 +44,16 @@ public class PlayerManager {
 	}
 	
 	public String getPrefix() {
+		this.update();
+		return this.prefix;
+	}
+	
+	private void update() {
 		if (this.prefix != PermissionsEx.getPermissionManager().getUser(getPlayer()).getPrefix()) {
 			this.prefix = PermissionsEx.getPermissionManager().getUser(getPlayer()).getPrefix();
-			getPlayer().setPlayerListName(getPrefixColors() + getPlayer().getName());
+			this.player.setPlayerListName(getPrefixColors() + getPlayer().getName());
+			this.player.setDisplayName(getColoredPrefix() + getPrefixColors() + getPlayer().getName());
 		}
-		return this.prefix;
 	}
 	
 	public String getColoredPrefix() {

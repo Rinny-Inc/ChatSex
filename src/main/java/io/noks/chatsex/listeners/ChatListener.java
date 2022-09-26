@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import io.noks.chatsex.Main;
-import io.noks.chatsex.manager.PlayerManager;
 
 public class ChatListener implements Listener {
 	private Main main;
@@ -24,10 +23,7 @@ public class ChatListener implements Listener {
 		if (event.isCancelled()) {
 			return;
 		}
-		final Player player = event.getPlayer();
-		PlayerManager pm = PlayerManager.get(player.getUniqueId());
-		String prefix = pm.getColoredPrefix() + "%1$s" + pm.getColoredSuffix() + ChatColor.RESET;
-		event.setFormat(prefix + ChatColor.WHITE + ": %2$s");
+		event.setFormat("%1$s" + ChatColor.WHITE + ": %2$s");
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)

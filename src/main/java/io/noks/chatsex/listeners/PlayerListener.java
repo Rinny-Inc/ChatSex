@@ -25,6 +25,7 @@ public class PlayerListener implements Listener {
 		this.checkLike(player);
 		final PlayerManager pm = new PlayerManager(player.getUniqueId());
 		player.setPlayerListName(pm.getPrefixColors() + player.getName());
+		player.setDisplayName(pm.getColoredPrefix() + pm.getPrefixColors() + pm.getPlayer().getName());
 	}
 	
 	@EventHandler
