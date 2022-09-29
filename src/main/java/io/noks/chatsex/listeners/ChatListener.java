@@ -39,7 +39,7 @@ public class ChatListener implements Listener {
 				continue;
 			}
 			String mentionMessage = event.getMessage().replaceAll("\\b(?i)" + player.getName() + "\\b", ChatColor.DARK_PURPLE.toString() + ChatColor.BOLD + player.getName() + ChatColor.RESET);
-			player.sendMessage(String.format(event.getFormat(), event.getPlayer().getName(), mentionMessage));
+			player.sendMessage(String.format(event.getFormat(), event.getPlayer().getDisplayName(), mentionMessage));
 			iterator.remove();
 		}
 	}
