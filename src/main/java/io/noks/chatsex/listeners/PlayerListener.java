@@ -22,10 +22,10 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
-		this.checkLike(player);
-		final PlayerManager pm = new PlayerManager(player.getUniqueId());
-		player.setPlayerListName(pm.getPrefixColors() + player.getName());
-		player.setDisplayName(pm.getColoredPrefix() + pm.getPrefixColors() + pm.getPlayer().getName());
+		if (this.main.getConfigManager().isVoteSystemEnabled()) {
+			this.checkLike(player);
+		}
+		new PlayerManager(player.getUniqueId()).update();
 	}
 	
 	@EventHandler

@@ -6,9 +6,11 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 
 import com.google.common.collect.Maps;
 
+import io.noks.chatsex.Main;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class PlayerManager {
@@ -20,8 +22,6 @@ public class PlayerManager {
 	public PlayerManager(UUID playerUUID) {
 	    this.playerUUID = playerUUID;
 	    this.player = Bukkit.getPlayer(this.playerUUID);
-	    this.prefix = PermissionsEx.getPermissionManager().getUser(this.player).getPrefix();
-	    this.suffix = PermissionsEx.getPermissionManager().getUser(this.player).getSuffix();
 	    players.putIfAbsent(playerUUID, this);
 	}
 
@@ -48,11 +48,25 @@ public class PlayerManager {
 		return this.prefix;
 	}
 	
-	private void update() {
-		if (this.prefix != PermissionsEx.getPermissionManager().getUser(getPlayer()).getPrefix()) {
+	public void update() {
+		/*if (this.suffix == null || this.suffix != PermissionsEx.getPermissionManager().getUser(getPlayer()).getSuffix()) {
+			this.suffix = PermissionsEx.getPermissionManager().getUser(getPlayer()).getPrefix();
+			this.player.setDisplayName(this.player.getDisplayName() + getColoredSuffix());
+		}*/
+		if (this.prefix == null || this.prefix != PermissionsEx.getPermissionManager().getUser(getPlayer()).getPrefix()) {
 			this.prefix = PermissionsEx.getPermissionManager().getUser(getPlayer()).getPrefix();
-			this.player.setPlayerListName(getPrefixColors() + getPlayer().getName());
 			this.player.setDisplayName(getColoredPrefix() + getPrefixColors() + getPlayer().getName());
+			if (!Main.instance.getConfigManager().useScoreboardTeam()) {
+				this.player.setPlayerListName(getPrefixColors() + this.player.getName());
+				return;
+			}
+			final String rankName = PermissionsEx.getPermissionManager().getUser(getPlayer()).getGroups()[0].getName();
+			Team team;
+			if ((team = Main.instance.getScoreboard().getTeam(rankName)) == null) {
+				team = Main.instance.getScoreboard().registerNewTeam(rankName);
+			}
+			team.setPrefix(getPrefixColors());
+			team.addPlayer(this.player);
 		}
 	}
 	
@@ -64,31 +78,26 @@ public class PlayerManager {
 		if (getPrefix().isEmpty()) {
 			return "";
 		}
-
-		ChatColor color;
-		ChatColor magicColor;
-
 		char code = 'f';
-		char magic = 'f';
 		int count = 0;
 
 		for (String string : getPrefix().split("&")) {
-			if (!(string.isEmpty())) {
-				if (ChatColor.getByChar(string.toCharArray()[0]) != null) {
-					if (count == 0 && !isMagicColor(string.toCharArray()[0])) {
-						code = string.toCharArray()[0];
-						count++;
-					} else if (count == 1 && isMagicColor(string.toCharArray()[0])) {
-						magic = string.toCharArray()[0];
-						count++;
-					}
-				}
+			if (string.isEmpty()) {
+				continue;
+			}
+			if (ChatColor.getByChar(string.toCharArray()[0]) == null) {
+				continue;
+			}
+			if (count == 0 && !isMagicColor(string.toCharArray()[0])) {
+				code = string.toCharArray()[0];
+				count++;
+				continue;
+			}
+			if (count == 1 && isMagicColor(string.toCharArray()[0])) {
+				return ChatColor.getByChar(code).toString() + ChatColor.getByChar(string.toCharArray()[0]).toString();
 			}
 		}
-
-		color = ChatColor.getByChar(code);
-		magicColor = ChatColor.getByChar(magic);
-		return count == 1 ? color.toString() : color.toString() + magicColor.toString();
+		return ChatColor.getByChar(code).toString();
 
 		//                 |Tab||   Chat Prefix    |
 		//                 |   ||                  |

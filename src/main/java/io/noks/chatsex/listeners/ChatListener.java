@@ -18,29 +18,28 @@ public class ChatListener implements Listener {
 	    this.main.getServer().getPluginManager().registerEvents(this, this.main);
 	}
 	
-	@EventHandler(priority=EventPriority.LOWEST)
+	@EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
 	public void onChat(AsyncPlayerChatEvent event) {
-		if (event.isCancelled()) {
-			return;
-		}
 		event.setFormat("%1$s" + ChatColor.WHITE + ": %2$s");
 	}
 	
+	// MENTION FOR MENTIONNED PLAYER ONLY
 	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
 	public void onPlayerGetMentioned(AsyncPlayerChatEvent event) {
 		final String message = event.getMessage();
 		Iterator<Player> iterator = event.getRecipients().iterator();
 		while (iterator.hasNext()) {
-			Player player = iterator.next();
+			final Player player = iterator.next();
 			if (!message.matches(".*\\b(?i)" + player.getName() + "\\b.*")) {
 				continue;
 			}
 			if (player.getName() == event.getPlayer().getName()) {
 				continue;
 			}
-			String mentionMessage = event.getMessage().replaceAll("\\b(?i)" + player.getName() + "\\b", ChatColor.DARK_PURPLE.toString() + ChatColor.BOLD + player.getName() + ChatColor.RESET);
+			final String mentionMessage = event.getMessage().replaceAll("\\b(?i)" + player.getName() + "\\b", ChatColor.DARK_PURPLE.toString() + ChatColor.BOLD + player.getName() + ChatColor.RESET);
 			player.sendMessage(String.format(event.getFormat(), event.getPlayer().getDisplayName(), mentionMessage));
 			iterator.remove();
+			return;
 		}
 	}
 }

@@ -1,4 +1,5 @@
 io\noks\chatsex\listeners\BlockListener.class
+io\noks\chatsex\manager\ConfigManager.class
 io\noks\chatsex\manager\PlayerManager.class
 io\noks\chatsex\utils\WebUtil.class
 io\noks\chatsex\listeners\PlayerListener.class
