@@ -20,7 +20,8 @@ public class ChatListener implements Listener {
 	
 	@EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
 	public void onChat(AsyncPlayerChatEvent event) {
-		event.setFormat("%1$s" + ChatColor.WHITE + ": %2$s");
+		final String format = ChatColor.translateAlternateColorCodes('&', this.main.getConfigManager().getChatFormat());
+		event.setFormat(format);
 	}
 	
 	// MENTION FOR MENTIONNED PLAYER ONLY

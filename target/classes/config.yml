@@ -1,2 +1,3 @@
 enable-vote-system: false
 enable-scoreboard-team: false
+chat-format: "<%1$s> %2$s"
