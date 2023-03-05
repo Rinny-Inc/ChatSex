@@ -35,7 +35,7 @@ public class PlayerListener implements Listener {
 	}
 	
 	private void checkLike(Player player) {
-		final String domainName = this.main.domainName;
+		final String domainName = this.main.getConfigManager().getDomainName();
 		if (domainName == null) return;
 		final String rank = PermissionsEx.getPermissionManager().getUser(player).getParentIdentifiers().get(0);
 		

@@ -59,9 +59,10 @@ public class PlayerManager {
 				Team team;
 				if ((team = Main.instance.getScoreboard().getTeam(rankName)) == null) {
 					team = Main.instance.getScoreboard().registerNewTeam(rankName);
-					team.setPrefix(getPrefixColors());
-					team.addPlayer(this.player);
 				}
+				// Need to keep this out of the if
+				team.setPrefix(getPrefixColors());
+				team.addPlayer(this.player);
 			}
 		}
 		if (this.suffix == null || this.suffix != PermissionsEx.getPermissionManager().getUser(getPlayer()).getSuffix()) {

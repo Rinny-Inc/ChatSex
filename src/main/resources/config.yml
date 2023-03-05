@@ -1,3 +1,7 @@
+domain-name: noks.io
+# When you enable this, you'll be able to know if the player liked your server on namemc
 enable-vote-system: false
+# When you enable this, the player's name up his head will be colored ^^
 enable-scoreboard-team: false
+# Chat Format Legend -> %1$s = player | %2$s = message
 chat-format: "&r<%1$s&r> %2$s"
