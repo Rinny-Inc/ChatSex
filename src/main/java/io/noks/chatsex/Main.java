@@ -9,20 +9,23 @@ import io.noks.chatsex.listeners.BlockListener;
 import io.noks.chatsex.listeners.ChatListener;
 import io.noks.chatsex.listeners.PlayerListener;
 import io.noks.chatsex.manager.ConfigManager;
+import io.noks.chatsex.utils.WebUtil;
 
 public class Main extends JavaPlugin {
 	public static Main instance;
 	private Scoreboard scoreboard;
 	private ConfigManager configManager;
+	private WebUtil webUtil;
 	
 	@Override
 	public void onEnable() {
 		instance = this;
 		this.getConfig().options().copyDefaults(true);
 		this.saveDefaultConfig();
+		this.webUtil = new WebUtil();
+		this.configManager = new ConfigManager(this);
 		this.registerScoreboard();
 		this.registerListeners();
-		this.configManager = new ConfigManager(this);
 		this.registerCommands();
 	}
 	
@@ -52,5 +55,9 @@ public class Main extends JavaPlugin {
 	
 	private void registerScoreboard() {
 		this.scoreboard = this.getServer().getScoreboardManager().getMainScoreboard();
+	}
+	
+	public WebUtil getWebUtil() {
+		return this.webUtil;
 	}
 }

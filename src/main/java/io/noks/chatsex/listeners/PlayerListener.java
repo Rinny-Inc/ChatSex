@@ -9,7 +9,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import io.noks.chatsex.Main;
 import io.noks.chatsex.manager.PlayerManager;
-import io.noks.chatsex.utils.WebUtil;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class PlayerListener implements Listener {
@@ -40,7 +39,7 @@ public class PlayerListener implements Listener {
 		final String rank = PermissionsEx.getPermissionManager().getUser(player).getParentIdentifiers().get(0);
 		
         if (rank.equals("default") || rank.equals("verified")) {
-            WebUtil.getResponse(this.main, "https://api.namemc.com/server/" + domainName + "/votes?profile=" + player.getUniqueId(), response -> {
+            this.main.getWebUtil().getResponse(this.main, "https://api.namemc.com/server/" + domainName + "/votes?profile=" + player.getUniqueId(), response -> {
             	switch (response) {
             	case "false":
             		if (rank.equals("verified")) {

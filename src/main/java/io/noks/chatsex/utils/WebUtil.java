@@ -8,9 +8,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import io.noks.chatsex.interfaces.WebCallback;
 
+// SATHONAY DID THIS
 public class WebUtil {
-	
-    public static void getResponse(JavaPlugin plugin, String url, WebCallback callback) {
+    public void getResponse(JavaPlugin plugin, String url, WebCallback callback) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
                 callback.callback(reader.readLine());
