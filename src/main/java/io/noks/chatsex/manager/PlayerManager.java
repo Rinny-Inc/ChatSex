@@ -49,24 +49,24 @@ public class PlayerManager {
 	}
 	
 	public void update() {
-		/*if (this.suffix == null || this.suffix != PermissionsEx.getPermissionManager().getUser(getPlayer()).getSuffix()) {
-			this.suffix = PermissionsEx.getPermissionManager().getUser(getPlayer()).getPrefix();
-			this.player.setDisplayName(this.player.getDisplayName() + getColoredSuffix());
-		}*/
 		if (this.prefix == null || this.prefix != PermissionsEx.getPermissionManager().getUser(getPlayer()).getPrefix()) {
 			this.prefix = PermissionsEx.getPermissionManager().getUser(getPlayer()).getPrefix();
 			this.player.setDisplayName(getColoredPrefix() + getPrefixColors() + getPlayer().getName());
 			if (!Main.instance.getConfigManager().useScoreboardTeam()) {
 				this.player.setPlayerListName(getPrefixColors() + this.player.getName());
-				return;
+			} else {
+				final String rankName = PermissionsEx.getPermissionManager().getUser(getPlayer()).getGroups()[0].getName();
+				Team team;
+				if ((team = Main.instance.getScoreboard().getTeam(rankName)) == null) {
+					team = Main.instance.getScoreboard().registerNewTeam(rankName);
+					team.setPrefix(getPrefixColors());
+					team.addPlayer(this.player);
+				}
 			}
-			final String rankName = PermissionsEx.getPermissionManager().getUser(getPlayer()).getGroups()[0].getName();
-			Team team;
-			if ((team = Main.instance.getScoreboard().getTeam(rankName)) == null) {
-				team = Main.instance.getScoreboard().registerNewTeam(rankName);
-			}
-			team.setPrefix(getPrefixColors());
-			team.addPlayer(this.player);
+		}
+		if (this.suffix == null || this.suffix != PermissionsEx.getPermissionManager().getUser(getPlayer()).getSuffix()) {
+			this.suffix = PermissionsEx.getPermissionManager().getUser(getPlayer()).getSuffix();
+			this.player.setDisplayName(this.player.getDisplayName() + getColoredSuffix());
 		}
 	}
 	

@@ -20,8 +20,8 @@ public class Main extends JavaPlugin {
 		instance = this;
 		this.getConfig().options().copyDefaults(true);
 		this.saveDefaultConfig();
+		this.registerScoreboard();
 		this.registerListener();
-		this.scoreboard = this.getServer().getScoreboardManager().getMainScoreboard();
 		this.configManager = new ConfigManager(this);
 	}
 	
@@ -37,5 +37,9 @@ public class Main extends JavaPlugin {
 	
 	public ConfigManager getConfigManager() {
 		return this.configManager;
+	}
+	
+	private void registerScoreboard() {
+		this.scoreboard = this.getServer().getScoreboardManager().getMainScoreboard();
 	}
 }
