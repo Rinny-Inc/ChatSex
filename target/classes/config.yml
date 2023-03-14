@@ -5,3 +5,6 @@ enable-vote-system: false
 enable-scoreboard-team: false
 # Chat Format Legend -> %1$s = player | %2$s = message
 chat-format: "&r<%1$s&r> %2$s"
+rank:
+  default: "default"
+  when-liked: "verified"

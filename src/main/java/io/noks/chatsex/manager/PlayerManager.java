@@ -48,6 +48,7 @@ public class PlayerManager {
 		return this.prefix;
 	}
 	
+	private String oldRankName = null;
 	public void update() {
 		if (this.prefix == null || this.prefix != PermissionsEx.getPermissionManager().getUser(getPlayer()).getPrefix()) {
 			this.prefix = PermissionsEx.getPermissionManager().getUser(getPlayer()).getPrefix();
@@ -57,6 +58,11 @@ public class PlayerManager {
 			} else {
 				final String rankName = PermissionsEx.getPermissionManager().getUser(getPlayer()).getGroups()[0].getName();
 				Team team;
+				if (rankName != oldRankName) {
+					this.oldRankName = rankName;
+					team = Main.instance.getScoreboard().getTeam(this.oldRankName);
+					team.removePlayer(this.player);
+				}
 				if ((team = Main.instance.getScoreboard().getTeam(rankName)) == null) {
 					team = Main.instance.getScoreboard().registerNewTeam(rankName);
 				}

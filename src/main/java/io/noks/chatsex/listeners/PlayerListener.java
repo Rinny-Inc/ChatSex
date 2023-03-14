@@ -38,21 +38,21 @@ public class PlayerListener implements Listener {
 		if (domainName == null) return;
 		final String rank = PermissionsEx.getPermissionManager().getUser(player).getParentIdentifiers().get(0);
 		
-        if (rank.equals("default") || rank.equals("verified")) {
+        if (rank.equals(this.main.getConfigManager().getDefaultRank()) || rank.equals(this.main.getConfigManager().getVerifiedRank())) {
             this.main.getWebUtil().getResponse(this.main, "https://api.namemc.com/server/" + domainName + "/votes?profile=" + player.getUniqueId(), response -> {
             	switch (response) {
             	case "false":
             		if (rank.equals("verified")) {
-            			PermissionsEx.getPermissionManager().getUser(player).removeGroup("verified");
-            			PermissionsEx.getPermissionManager().getUser(player).addGroup("default");
+            			PermissionsEx.getPermissionManager().getUser(player).removeGroup(this.main.getConfigManager().getVerifiedRank());
+            			PermissionsEx.getPermissionManager().getUser(player).addGroup(this.main.getConfigManager().getDefaultRank());
             			player.sendMessage(ChatColor.RED + "Your rank has been removed due to your unlike!");
             		}
             		break;
             	case "true":
             		if (rank.equals("default")) {
-            			PermissionsEx.getPermissionManager().getUser(player).removeGroup("default");
-            			PermissionsEx.getPermissionManager().getUser(player).addGroup("verified");
-            			player.sendMessage(ChatColor.GREEN + "Thanks for liking the server on NameMC! You've now got the Verified rank.");
+            			PermissionsEx.getPermissionManager().getUser(player).removeGroup(this.main.getConfigManager().getDefaultRank());
+            			PermissionsEx.getPermissionManager().getUser(player).addGroup(this.main.getConfigManager().getVerifiedRank());
+            			player.sendMessage(ChatColor.GREEN + "Thanks for liking the server on NameMC! You've now got the " + this.main.getConfigManager().getVerifiedRank() + " rank.");
             		}
             		break;
             	}
