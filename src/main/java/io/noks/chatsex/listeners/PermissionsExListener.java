@@ -1,8 +1,7 @@
 package io.noks.chatsex.listeners;
 
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -19,9 +18,12 @@ public class PermissionsExListener implements Listener {
 	
 	@EventHandler
 	public void onGroupChange(PermissionEntityEvent event) { 
+		final Player player = Bukkit.getPlayer(event.getEntity().getName());
+		if (player == null) {
+			return;
+		}
 		if (event.getAction() == Action.INHERITANCE_CHANGED) {
-			final UUID uuid = Bukkit.getPlayer(event.getEntity().getName()).getUniqueId();
-			PlayerManager.get(uuid).update();
+			PlayerManager.get(player.getUniqueId()).update();
 		}
 	}
 }
