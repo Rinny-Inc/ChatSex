@@ -9,6 +9,7 @@ import io.noks.chatsex.listeners.ChatListener;
 import io.noks.chatsex.listeners.PermissionsExListener;
 import io.noks.chatsex.listeners.PlayerListener;
 import io.noks.chatsex.manager.ConfigManager;
+import io.noks.chatsex.manager.PlayerManager;
 import io.noks.chatsex.utils.WebUtil;
 
 public class Main extends JavaPlugin {
@@ -28,6 +29,11 @@ public class Main extends JavaPlugin {
 		this.configManager = new ConfigManager(this);
 		this.registerListeners();
 		this.registerCommands();
+	}
+	
+	@Override
+	public void onDisable() {
+		PlayerManager.players.clear();
 	}
 	
 	private void registerListeners() {

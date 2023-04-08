@@ -14,7 +14,7 @@ import io.noks.chatsex.Main;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class PlayerManager {
-	private static final Map<UUID, PlayerManager> players = Maps.newConcurrentMap();
+	public static final Map<UUID, PlayerManager> players = Maps.newConcurrentMap();
 	private Player player;
 	private UUID playerUUID;
 	private String prefix, suffix;
@@ -50,6 +50,7 @@ public class PlayerManager {
 	
 	private String oldRankName = null;
 	public void update() {
+		// TODO: Personnal Prefix and Suffix
 		if (this.prefix == null || this.prefix != PermissionsEx.getPermissionManager().getUser(getPlayer()).getPrefix()) {
 			this.prefix = PermissionsEx.getPermissionManager().getUser(getPlayer()).getPrefix();
 			this.player.setDisplayName(getColoredPrefix() + getPlayer().getName());
