@@ -1,5 +1,6 @@
 package io.noks.chatsex.manager;
 
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import io.noks.chatsex.Main;
@@ -7,7 +8,7 @@ import io.noks.chatsex.Main;
 public class ConfigManager {
 	private String domainName = "noks.io";
 	private boolean voteSystem = false;
-	private boolean scoreboardTeam = false;
+	private boolean scoreboardTeam = false, updatePersonal = false;
 	private String chatFormat = "<%1$s> %2$s", defaultRank = "default", verifiedRank = "verified";
 	
 	public ConfigManager(Main main) {
@@ -15,12 +16,14 @@ public class ConfigManager {
 		this.voteSystem = main.getConfig().getBoolean("enable-vote-system", this.voteSystem);
 		this.scoreboardTeam = main.getConfig().getBoolean("enable-scoreboard-team", this.scoreboardTeam);
 		if (!this.scoreboardTeam) {
-			if (main.getScoreboard() != null && !main.getScoreboard().getTeams().isEmpty()) {
-				for (Team team : main.getScoreboard().getTeams()) {
+			Scoreboard mainSb = main.getServer().getScoreboardManager().getMainScoreboard();
+			if (mainSb != null && !mainSb.getTeams().isEmpty()) {
+				for (Team team : mainSb.getTeams()) {
 					team.unregister();
 				}
 			}
 		}
+		this.updatePersonal = main.getConfig().getBoolean("update-personal-scoreboard", this.updatePersonal);
 		this.chatFormat = main.getConfig().getString("chat-format", this.chatFormat);
 		this.defaultRank = main.getConfig().getString("rank.default", this.defaultRank);
 		this.verifiedRank = main.getConfig().getString("rank.when-liked", this.verifiedRank);
@@ -44,6 +47,10 @@ public class ConfigManager {
 	
 	public String getDefaultRank() {
 		return this.defaultRank;
+	}
+	
+	public boolean updatePersonalScoreboard() {
+		return this.updatePersonal;
 	}
 	
 	public String getVerifiedRank() {

@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -12,16 +13,17 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import io.noks.chatsex.Main;
 import io.noks.chatsex.manager.PlayerManager;
+import io.noks.chatsex.utils.WebUtil;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-public class PlayerListener implements Listener {
+public class PlayerListener extends WebUtil implements Listener {
 	private Main main;
 	public PlayerListener(Main plugin) {
 		this.main = plugin;
 	    this.main.getServer().getPluginManager().registerEvents(this, this.main);
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		if (this.main.getConfigManager().isVoteSystemEnabled()) {
@@ -55,7 +57,7 @@ public class PlayerListener implements Listener {
 		final String rank = PermissionsEx.getPermissionManager().getUser(player).getParentIdentifiers().get(0);
 		
         if (rank.equals(this.main.getConfigManager().getDefaultRank()) || rank.equals(this.main.getConfigManager().getVerifiedRank())) {
-            this.main.getWebUtil().getResponse(this.main, "https://api.namemc.com/server/" + domainName + "/votes?profile=" + player.getUniqueId(), response -> {
+            this.getResponse(this.main, "https://api.namemc.com/server/" + domainName + "/votes?profile=" + player.getUniqueId(), response -> {
             	switch (response) {
             	case "false":
             		if (rank.equals("verified")) {
